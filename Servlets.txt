@@ -1,0 +1,50 @@
+Servlets are Java classes that dynamically process and respond to requests made by clients in a web server environment.
+
+without servlets:
+Without servlets, a Java web application would lack server-side processing capabilities, making it impossible to handle user requests, process form submissions, or perform server-side logic, severely limiting its functionality and interactivity.
+
+Platform Independence: Servlets are written in Java, which makes them platform-independent. They can run on any platform that supports Java, providing flexibility and portability.
+
+Multithreading: Servlet containers manage servlet instances and handle multithreading internally. This means that servlets can handle multiple requests concurrently, improving performance and scalability.
+
+Methods includes:
+GET: Retrieves data from the server.
+POST: Sends data to the server.
+PUT: Updates data on the server.
+DELETE: Removes data from the server.
+
+LifeCycle:
+init(), service(), destroy()
+
+service():
+
+This method is invoked by the servlet container to handle client requests.
+Every time the servlet container receives a request for the servlet, it calls the service() method, passing in the request and response objects.
+
+1. doGet(HttpServletRequest request, HttpServletResponse response):
+
+This method is called by the servlet container to handle HTTP GET requests.
+Developers override this method to implement the logic for processing GET requests.
+
+2. doPost(HttpServletRequest request, HttpServletResponse response):
+
+This method is called by the servlet container to handle HTTP POST requests.
+Developers override this method to implement the logic for processing POST requests.
+
+3. doPut(HttpServletRequest request, HttpServletResponse response):
+
+This method is called by the servlet container to handle HTTP PUT requests.
+Developers override this method to implement the logic for processing PUT requests.
+
+4. doDelete(HttpServletRequest request, HttpServletResponse response):
+
+This method is called by the servlet container to handle HTTP DELETE requests.
+Developers override this method to implement the logic for processing DELETE requests.
+
+destroy():
+
+The destroy() method is called only once during the servlet's lifecycle, typically when the servlet container is shutting down or when the servlet is being redeployed.
+
+init() initializes the servlet when it's first loaded into memory.
+service() handles client requests, processing incoming requests and generating appropriate responses.
+destroy() allows the servlet to perform cleanup tasks before it's removed from memory.

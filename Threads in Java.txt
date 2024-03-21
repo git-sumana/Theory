@@ -1,0 +1,270 @@
+Java 1.1 -- Thread,Runnable,synchronized
+
+public class SynchronizedExample {
+    private static int count = 0;
+
+    public static synchronized void increment() {
+        count++;
+    }
+
+    public static synchronized void decrement() {
+        count--;
+    }
+
+    public static void main(String[] args) {
+        // Create and start two threads
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                increment();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                decrement();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        // Wait for both threads to finish
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Output the final count
+        System.out.println("Final count: " + count);
+    }
+}
+
+******************************
+Final count: 0
+
+******************************
+
+Java 1.2 -- wait,notify,notifyAll
+   ReentrantLock class for finer-grained (x) locking (thread safety)
+   Vector and Hashtable
+
+******************************
+public class WaitNotifyExample {
+    private static final Object lock = new Object();
+    private static int sharedResource;
+
+    public static void main(String[] args) {
+        Thread producer = new Thread(() -> {
+            synchronized (lock) {
+                try {
+                    // Wait until notified to produce
+                    lock.wait();
+                    // Produce an item
+                    sharedResource = 42;
+                    System.out.println("Producer produced: " + sharedResource);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Thread consumer = new Thread(() -> {
+            synchronized (lock) {
+                // Consume the item
+                System.out.println("Consumer consumed: " + sharedResource);
+                // Notify the producer
+                lock.notify();
+            }
+        });
+
+        producer.start();
+        consumer.start();
+    }
+}
+******************************
+Consumer consumed: 0
+Producer produced: 42
+******************************
+
+Java 5  -- Executor frame work -- ExecutorService,ThreadPoolExecutor (ThreadPoolExecutor is a concrete class that implements the ExecutorService interface.)
+           New thread-safe collections like ConcurrentHashMap and BlockingQueue (data)
+
+***************************
+import java.util.concurrent.*;
+
+public class CollectionExample {
+    public static void main(String[] args) {
+        // Example of ConcurrentHashMap
+        // Creating a ConcurrentHashMap to store key-value pairs
+        ConcurrentHashMap<Integer, String> concurrentHashMap = new ConcurrentHashMap<>();
+        
+        // Adding some key-value pairs to the ConcurrentHashMap
+        concurrentHashMap.put(1, "One");
+        concurrentHashMap.put(2, "Two");
+        concurrentHashMap.put(3, "Three");
+
+        // Printing the contents of the ConcurrentHashMap
+        System.out.println("ConcurrentHashMap contents:");
+        for (Integer key : concurrentHashMap.keySet()) {
+            System.out.println("Key: " + key + ", Value: " + concurrentHashMap.get(key));
+        }
+
+        // Example of BlockingQueue
+        // Creating a BlockingQueue with a maximum capacity of 10
+        BlockingQueue<Integer> blockingQueue = new ArrayBlockingQueue<>(10);
+        
+        try {
+            // Adding an element to the BlockingQueue
+            blockingQueue.put(1); // Blocking call if the queue is full
+            
+            // Taking an element from the BlockingQueue
+            int item = blockingQueue.take(); // Blocking call if the queue is empty
+            
+            // Printing the item taken from the BlockingQueue
+            System.out.println("\nItem taken from BlockingQueue: " + item);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+***********************
+
+           Semaphores (threads)
+
+import java.util.concurrent.*;
+
+public class SemaphoreExample {
+    public static void main(String[] args) {
+        // Creating a semaphore with 3 permits
+        Semaphore semaphore = new Semaphore(3);
+
+        // Creating and starting 5 threads
+        for (int i = 1; i <= 5; i++) {
+            Thread thread = new Thread(new Task(semaphore, i));
+            thread.start();
+        }
+    }
+
+    static class Task implements Runnable {
+        private final Semaphore semaphore;
+        private final int id;
+
+        public Task(Semaphore semaphore, int id) {
+            this.semaphore = semaphore;
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            try {
+                // Acquiring permit from semaphore
+                semaphore.acquire();
+                System.out.println("Thread " + id + " acquired a permit.");
+
+                // Simulating some work
+                Thread.sleep(2000);
+
+                // Releasing permit back to semaphore
+                semaphore.release();
+                System.out.println("Thread " + id + " released the permit.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+*************************
+Thread 1 acquired a permit.
+Thread 2 acquired a permit.
+Thread 3 acquired a permit.
+Thread 1 released the permit.
+Thread 4 acquired a permit.
+Thread 5 acquired a permit.
+Thread 2 released the permit.
+Thread 3 released the permit.
+Thread 4 released the permit.
+Thread 5 released the permit.
+*****************************
+
+Java 6 -- Fork/Join framework for parallel exceution
+
+          CompletableFuture class (.runAsync())
+
+Java 8 -- Lambdas and Streams;
+
+Java 9 -- Platform Monitoring Support: The ability to monitor thread-related metrics 
+**************************
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+
+public class PlatformMonitoringExample {
+    public static void main(String[] args) {
+        // Create and start a monitoring thread
+        MonitoringThread monitoringThread = new MonitoringThread();
+        monitoringThread.start();
+        
+        // Main thread will continue with other tasks
+        System.out.println("Main thread is continuing with other tasks...");
+    }
+    
+    static class MonitoringThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                // Fetch and display system information
+                displaySystemInfo();
+                
+                // Sleep for 5 seconds before fetching again
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        private void displaySystemInfo() {
+            OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+            double cpuUsage = osBean.getSystemLoadAverage();
+            long totalMemory = Runtime.getRuntime().totalMemory();
+            long freeMemory = Runtime.getRuntime().freeMemory();
+            long usedMemory = totalMemory - freeMemory;
+            long maxMemory = Runtime.getRuntime().maxMemory();
+            
+            System.out.println("CPU Usage: " + cpuUsage);
+            System.out.println("Memory Usage: " + usedMemory + " / " + totalMemory + " (Max: " + maxMemory + ")");
+        }
+    }
+}
+***********************************
+Main thread is continuing with other tasks...
+CPU Usage: 0.84
+Memory Usage: 134217728 / 2075918336 (Max: 3817865216)
+CPU Usage: 0.91
+Memory Usage: 148803176 / 2075918336 (Max: 3817865216)
+CPU Usage: 0.88
+Memory Usage: 149095120 / 2075918336 (Max: 3817865216)
+***********************************
+Java 10 -- Garbage Collector Improvements: Garbage collection, which interacts with threads, was optimized for better performance.
+
+Java 17 -- Sealed Classes: This feature can be used to restrict the subclasses of a class, potentially improving thread safety.
+public class Main {
+    public static void main(String[] args) {
+        // Create a Circle instance with radius 5
+        Circle circle = new Circle(5);
+        // Calculate and output the area of the circle
+        System.out.println("Area of the circle: " + circle.area());
+
+        // Create a Rectangle instance with width 4 and height 6
+        Rectangle rectangle = new Rectangle(4, 6);
+        // Calculate and output the area of the rectangle
+        System.out.println("Area of the rectangle: " + rectangle.area());
+    }
+}
+**********************
+Area of the circle: 78.53981633974483
+Area of the rectangle: 24.0
+**********************
