@@ -1,0 +1,65 @@
+A servlet is a Java programming language class that is used to extend the capabilities of servers that host applications accessed by means of a request-response programming model. Servlets can respond to any type of request, they are commonly used to extend the applications hosted by web servers. 
+
+******************
+
+The javax.servlet and javax.servlet.http package.
+The HttpServlet class provides methods, such as doGet and doPost, for handling HTTP-specific services.
+
+Classes: HTTPServlet, ServletRequest, ServletResponse
+Interfaces: Filter, HTTPSession
+
+Why and Where?
+1. Dynamic Content Generation
+2. Server Side Processing
+3. MVC Archietecture
+4. Re-usability
+
+****************
+LIFE-CYCLE
+
+The life cycle of a servlet is controlled by the container in which the servlet has been deployed. When a request is mapped to a servlet, the container performs the following steps.
+
+If an instance of the servlet does not exist, the web container
+
+Loads the servlet class.
+
+Creates an instance of the servlet class.
+
+Initializes the servlet instance by calling the init method. Initialization is covered in Initializing a Servlet.
+
+Invokes the service method, passing request and response objects. Service methods are discussed in Writing Service Methods.
+
+If the container needs to remove the servlet, it finalizes the servlet by calling the servlet’s destroy method. Finalization is discussed in Finalizing a Servlet.
+
+1. Loading Servlet Class (Model):
+Servlet class is loaded into memory by the servlet container during server startup.
+The servlet class contains the application's data structures and business logic, serving as part of the Model layer in MVC.
+
+2. Instantiating Servlet (Controller):
+Servlet container creates an instance of the servlet class.
+This servlet instance acts as the Controller in MVC, responsible for handling incoming requests and coordinating interactions between the Model and the View.
+
+3. Initialization (Model/Controller):
+Servlet container calls the `init()` method on the servlet instance.
+In the `init()` method, the servlet initializes any necessary resources or configuration settings.
+From the Model perspective, this may involve setting up database connections or loading application settings.
+From the Controller perspective, this prepares the servlet to handle requests by configuring parameters or initializing state.
+
+4. Servicing Requests (Controller):
+When a client sends an HTTP request to the servlet, the servlet container calls the `service()` method on the servlet instance.
+The `service()` method processes the request, interacts with the Model to perform business logic, and determines the appropriate View to render the response.
+It acts as the Controller, coordinating the flow of data and responses between the Model and the View.
+
+5. Destroying Servlet (Controller):
+ When the servlet container shuts down or removes the servlet instance (e.g., during application undeployment), it calls the `destroy()` method on the servlet.
+ In the `destroy()` method, the servlet performs cleanup tasks, such as closing database connections or releasing resources.
+
+ Sure, here are sentences for each term:
+
+1. Doget: "To retrieve data from a database or a specific location within a program, you must use the 'doget' command."
+  
+2. Doput: "When updating a record in a database, programmers often use the 'doput' command to replace existing data with new information."
+
+3. Dodelete: "To remove unnecessary files or entries from a system, administrators typically employ the 'dodelete' command for efficient cleanup."
+
+4. Dopost: "After gathering user input, websites often utilize the 'dopost' function to submit form data for processing and storage."
