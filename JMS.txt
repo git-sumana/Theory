@@ -1,0 +1,29 @@
+The Java Message Service (JMS) was designed to make it easy to develop business applications that asynchronously send and receive business data and events. JMS supports both messaging models: point-to-point (queuing) and publish-subscribe.
+
+JMS defines a set of interfaces and semantics that allow Java applications to communicate with other messaging implementations. A JMS implementation is known as a JMS provider. It maximizes the portability of messaging applications.
+
+A JMS application is composed of the following parts:
+
+A JMS provider: A messaging system that implements the JMS specification.
+JMS clients: Java applications that send and receive messages.
+Messages: Objects that are used to communicate information between JMS clients.
+Administered objects: Preconfigured JMS objects that are created by an administrator for the use of JMS clients.
+
+Workflow:
+Initialisation, Connection Establishment, Session Creation, Destination Creation and Message Production (send)
+Message Consumption, Acknowledgement and Resource Closing
+
+ JMS application consists of a set of application-defined messages and a set of clients that exchange them. JMS clients interact by sending and receiving messages using the JMS API. A message is composed of three parts: header, properties, and a body.
+
+The header, which is required for every message, contains information that is used for routing and identifying messages. Some of these fields are set automatically, by the JMS provider, during producing and delivering a message, and others are set by the client on a message by message basis.
+
+Properties, which are optional, provide values that clients can use to filter messages. They provide additional information about the data, such as which process created it, the time it was created. Properties can be considered as an extension to the header, and consist of property name/value pairs. Using properties, clients can fine-tune their selection of messages by specifying certain values that act as selection criteria.
+
+The body, which is also optional, contains the actual data to be exchanged. The JMS specification defined six type or classes of messages that a JMS provider must support:
+Message: This represents a message without a message body.
+StreamMessage: A message whose body contains a stream of Java primitive types. It is written and read sequentially.
+MapMessage: A message whose body contains a set of name/value pairs. The order of entries is not defined.
+TextMessage: A message whose body contains a Java string...such as an XML message.
+ObjectMessage: A message whose body contains a serialized Java object.
+BytesMessage: A message whose body contains a stream of uninterpreted bytes.
+
