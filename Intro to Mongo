@@ -1,0 +1,66 @@
+What? MongoDB is an open-source document database that provides high performance, high availability, and automatic scaling.
+FEILD VALUE PAIRS
+
+1. Support ad hoc queries
+In MongoDB, you can search by field, range query and it also supports regular expression searches.
+
+2. Indexing
+You can index any field in a document.
+
+3. Master-Slave model
+
+4. Duplication of data
+MongoDB can run over multiple servers. The data is duplicated to keep the system up and also keep its running condition in case of hardware failure.
+
+CRUD OPERATIONS
+
+1. Insert Documents
+mongosh
+ supports common insert opererations, including:
+
+db.collection.insertOne()
+
+db.collection.insertMany()
+
+For more information and examples, refer to Insert Documents.
+
+2 Read Documents
+Use the 
+db.collection.find()
+ method to query documents in a collection. For more information and examples, refer to Query Documents.
+
+3 Update Documents
+mongosh supports common update operations, including:
+
+db.collection.updateOne(filter, replacement, options)
+
+db.collection.updateMany(filter, replacement, options)
+
+db.collection.replaceOne(filter, replacement, options)
+
+For more information and examples, refer to Update Documents.
+
+4 Delete Documents
+mongosh supports common delete operations, including:
+
+db.collection.deleteMany()
+
+db.collection.deleteOne()
+
+For more information and examples, refer to Delete Documents.
+
+5 Run Aggregation Pipelines
+You can run aggregation pipelines in 
+mongosh  using the 
+db.collection.aggregate()
+ method. Aggregation pipelines transform your documents into aggregated results based on the stages you specify. For more information and examples, refer to Run Aggregation Pipelines.
+
+ Criteria	MySQL					NoSQL
+Scalability	Vertically scalable		Horizontally scalable
+Data Model	Structured (tables)		Flexible (document, key-value, etc.)
+Performance	Optimized for ACID trans Optimized for high-throughput, low-latency operations
+Schema Flexibility	Fixed schema (requires migrations for schema changes)	Flexible schema (supports schema evolution)
+Big Data Handling	Not as efficient for unstructured data	Well-suited for structured, semi-structured, and unstructured data
+Horizontal Scaling	Limited scaling capabilities	Built for distributed architectures, easy horizontal scaling
+Consistency	Strong consistency guarantees (ACID transactions)	Eventual consistency, eventual consistency, or other consistency
+Cost-effectiveness	Can be costly for large-scale deployments	Generally more cost-effective, can run on commodity hardware
