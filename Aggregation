@@ -1,0 +1,52 @@
+Aggregations:
+
+Aggregation operations process multiple documents and return computed results. You can use aggregation operations to:
+
+1. Group values from multiple documents together.
+
+2. Perform operations on the grouped data to return a single result.
+
+3. Analyze data changes over time.
+
+To perform aggregation operations, you can use:
+Aggregation pipelines, which are the preferred method for performing aggregations.
+Single purpose aggregation methods, which are simple but lack the capabilities of an aggregation pipeline.
+
+import com.mongodb.client.*;
+import org.bson.Document;
+import java.util.*;
+
+public class MongoEx {
+    public static void main(String[] args) {
+        // Connect to MongoDB
+        try (MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017")) {
+            MongoDatabase database = mongoClient.getDatabase("testdb");
+            MongoCollection<Document> collection = database.getCollection("people");
+
+            // Sample data insertion (comment this out if you already have data)
+            insertSampleData(collection);
+
+            // Retrieve documents from collection
+            FindIterable<Document> documents = collection.find();
+
+            // Concatenate name and age fields
+            for (Document doc : documents) {
+                String name = doc.getString("name");
+                int age = doc.getInteger("age");
+                String combinedData = name + " - " + age;
+                System.out.println(combinedData);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e);
+        }
+    }
+
+    private static void insertSampleData(MongoCollection<Document> collection) {
+        List<Document> documents = new ArrayList<>();
+        documents.add(new Document("name", "John").append("age", 30));
+        documents.add(new Document("name", "Alice").append("age", 25));
+        documents.add(new Document("name", "Bob").append("age", 35));
+        collection.insertMany(documents);
+        System.out.println("Sample data inserted successfully.");
+    }
+}
