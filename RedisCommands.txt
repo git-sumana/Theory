@@ -1,0 +1,34 @@
+Certainly! Here's a consolidated list of basic Redis commands for different data types:
+
+Strings
+- `SET key value`: Set a key-value pair.
+- `GET key`: Get the value of a key.
+- `SETNX key value`: Set key-value pair if key does not exist.
+- `APPEND key value`: Append a value to a key.
+- `GETSET key value`: Set the value of a key and return its old value.
+- `INCR/ DECR key`: Increment the integer value of a key by one.
+
+Sets
+- `SADD key member [member ...]`: Add one or more members to a set.
+- `SMEMBERS key`: Get all members of a set.
+- `SISMEMBER key member`: Check if a member exists in a set.
+- `SREM key member [member ...]`: Remove one or more members from a set.
+- `SCARD key`: Get the number of members in a set.
+- `SUNION key [key ...]`: Perform a union of multiple sets.
+
+Hashes
+- `HSET key field value`: Set the field in the hash stored at key to value.
+- `HGET key field`: Get the value associated with field in the hash stored at key.
+- `HGETALL key`: Get all fields and values of the hash stored at key.
+- `HDEL key field [field ...]`: Delete one or more fields from a hash.
+- `HKEYS key`: Get all fields in a hash.
+- `HLEN key`: Get the number of fields in a hash.
+
+Lists
+- `LPUSH key value [value ...]`: Prepend one or multiple values to a list.
+- `RPUSH key value [value ...]`: Append one or multiple values to a list.
+- `LPOP key`: Remove and get the first element in a list.
+- `RPOP key`: Remove and get the last element in a list.
+- `LRANGE key start stop`: Get a range of elements from a list.
+- `LLEN key`: Get the length of a list.
+- `LINDEX key index`: Get an element from a list by its index.
